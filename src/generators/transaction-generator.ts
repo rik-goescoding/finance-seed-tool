@@ -11,48 +11,46 @@ export function createSeedAccount(): SeedAccount {
     };
 }
 
-export function createSeedTransactions(): SeedTransaction[] {
-    const salaryTransaction: SeedTransaction = {
-        externalTransactionId: "tx-salary-2025-01",
-        bookingDate: "2025-01-25",
-        amount: 2850,
-        currency: "EUR",
+export function createSeedTransactions(numberOfMonths: number): SeedTransaction[] {
+    const transactions: SeedTransaction[] = [];
 
-        counterpartyName: "Employer B.V.",
-        counterpartyIban: "NL11BANK0123456789",
-        description: "Salary January",
+    const startYear = 2025;
+    const startMonth = 0; // January
 
-        direction: "INCOMING",
-        status: "BOOKED"
-    };
+    for (let i = 0; i < numberOfMonths; i++) {
+        const currentMonthDate = new Date(startYear, startMonth + i, 1);
 
-    const spotifyTransaction: SeedTransaction = {
-        externalTransactionId: "tx-spotify-2025-01",
-        bookingDate: "2025-01-28",
-        amount: 14.99,
-        currency: "EUR",
+        const year = currentMonthDate.getFullYear();
+        const month = currentMonthDate.getMonth() + 1;
 
-        counterpartyName: "Spotify",
-        counterpartyIban: "NL89BANK0110223344",
-        description: "Spotify Subscription",
+        const monthString = String(month).padStart(2, "0");
 
-        direction: "OUTGOING",
-        status: "BOOKED"
-    };
+        const salaryTransaction: SeedTransaction = {
+            externalTransactionId: `tx-salary-${year}-${monthString}`,
+            bookingDate: `${year}-${monthString}-25`,
+            amount: 2850,
+            currency: "EUR",
+            counterpartyName: "Employer B.V.",
+            counterpartyIban: "NL11BANK0123456789",
+            description: `Salary for ${year}-${monthString}`,
+            direction: "INCOMING",
+            status: "BOOKED"
+        };
 
-    const bolTransaction: SeedTransaction = {
-        externalTransactionId: "tx-bol-2025-01",
-        bookingDate: "2025-01-29",
-        amount: 78.99,
-        currency: "EUR",
+        const spotifyTransaction: SeedTransaction = {
+            externalTransactionId: `tx-spotify-${year}-${monthString}`,
+            bookingDate: `${year}-${monthString}-28`,
+            amount: 14.99,
+            currency: "EUR",
+            counterpartyName: "Spotify B.V.",
+            counterpartyIban: "NL22BANK9876543210",
+            description: `Spotify Subscription for ${year}-${monthString}`,
+            direction: "OUTGOING",
+            status: "BOOKED"
+        };
 
-        counterpartyName: "Bol.com",
-        counterpartyIban: "NL45BANK3344556677",
-        description: "Bol.com order #12233",
+        transactions.push(salaryTransaction, spotifyTransaction);
+    }
 
-        direction: "OUTGOING",
-        status: "BOOKED"
-    };
-
-    return [salaryTransaction, spotifyTransaction, bolTransaction];
+    return transactions;
 }

@@ -3,8 +3,10 @@ import {sendBulkTransactions} from "./clients/transaction-client";
 
 const payload = {
     account: createSeedAccount(),
-    transactions: createSeedTransactions()
+    transactions: createSeedTransactions(12)
 }
+
+//console.log(JSON.stringify(payload, null, 2));
 
 async function run() {
     try {
